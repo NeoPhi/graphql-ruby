@@ -79,4 +79,18 @@ class GraphQL::Field
     end
     @type
   end
+
+  # This value will be nested inside {Query::Context#projections}
+  # and accessible to {#resolve} functions of parent queries
+  def project(type_or_proc, args=nil, ctx=nil)
+    if args.nil? && ctx.nil?
+      @project_proc = type_or_proc
+    elsif @project_proc
+      @project_proc.call(type_or_proc, args, ctx)
+    end
+  end
+
+  def projects?
+    !!@project_proc
+  end
 end

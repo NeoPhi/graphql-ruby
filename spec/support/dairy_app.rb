@@ -78,7 +78,7 @@ DairyProductInputType = GraphQL::InputObjectType.new {|t, type, field, arg|
 }
 
 
-class FetchField
+class FetchField < GraphQL::Field
   attr_reader :type, :arguments, :deprecation_reason
   attr_accessor :name
   def initialize(type:, data:, id_type: !GraphQL::INT_TYPE)

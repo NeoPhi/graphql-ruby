@@ -54,6 +54,10 @@ class GraphQL::Query
 
   def execute
     @operations.reduce({}) do |memo, (name, operation)|
+      resolver = Projection::OperationProjector.new(operation, self)
+      memo.merge(resolver.result)
+    end
+    @operations.reduce({}) do |memo, (name, operation)|
       resolver = OperationResolver.new(operation, self)
       memo.merge(resolver.result)
     end
@@ -68,21 +72,11 @@ class GraphQL::Query
       end
     end
   end
-
-  # Expose some query-specific info to field resolve functions.
-  # It delegates `[]` to the hash that's passed to `GraphQL::Query#initialize`.
-  class Context
-    def initialize(arbitrary_hash)
-      @arbitrary_hash = arbitrary_hash
-    end
-
-    def [](key)
-      @arbitrary_hash[key]
-    end
-  end
 end
 
 require 'graph_ql/query/arguments'
+require 'graph_ql/query/projection'
+require 'graph_ql/query/context'
 require 'graph_ql/query/field_resolution_strategy'
 require 'graph_ql/query/fragment_spread_resolution_strategy'
 require 'graph_ql/query/inline_fragment_resolution_strategy'

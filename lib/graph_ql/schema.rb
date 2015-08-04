@@ -6,7 +6,7 @@ class GraphQL::Schema
 
   # @param query [GraphQL::ObjectType]  the query root for the schema
   # @param mutation [GraphQL::ObjectType, nil] the mutation root for the schema
-  def initialize(query:, mutation:)
+  def initialize(query:, mutation: nil)
     # Add fields to this query root for introspection:
     query.fields = query.fields.merge({
       "__type" =>     GraphQL::Field.new do |f, type, field, arg|
