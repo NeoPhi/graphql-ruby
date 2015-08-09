@@ -1,11 +1,12 @@
 require "codeclimate-test-reporter"
 CodeClimate::TestReporter.start
-require 'graphql'
-require 'date'
+require "graphql"
+require "sequel"
 require "minitest/autorun"
 require "minitest/focus"
 require "minitest/reporters"
-require 'pry'
+require "pry"
+require "pp"
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
 # Filter out Minitest backtrace while allowing backtrace from other libraries

@@ -24,9 +24,30 @@ describe GraphQL::Query::Projection do
       projectedInt2
     }
   "}
+  let(:schema) { ProjectorSchema }
 
-  let(:result) { GraphQL::Query.new(ProjectorSchema, query_string, context: { counter: 0 } ).result }
+  let(:result) { GraphQL::Query.new(schema, query_string, context: { counter: 0 } ).result }
 
+  describe "does book stuff" do
+    let(:schema) { ReaderSchema }
+    let(:query_string) { %|
+      {
+        currentReader {
+          name
+          books(first: 2) {
+            name,
+            author { name }
+          }
+        }
+      }
+    |}
+    focus
+    it "does book stuff" do
+      pp result
+      pp COUNT_LOGGER.count
+    end
+
+  end
   it "adds projected values to context.projections" do
     expected = {"data"=>
       {

@@ -17,6 +17,7 @@ class GraphQL::Field
   def initialize
     @arguments = {}
     @resolve_proc = -> (o, a, c) { GraphQL::Query::DEFAULT_RESOLVE }
+    @project_proc = -> (type, args, ctx) { {"name" => name, "args" => args, "projections" => ctx.projections} }
     yield(
       self,
       GraphQL::DefinitionHelpers::TypeDefiner.instance,
